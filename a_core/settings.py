@@ -38,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # drf
-    'rest_framework',
-
     # my_apps
     'budgets.apps.BudgetsConfig',
     'accounts.apps.AccountsConfig',
+
+    # drf
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -130,5 +130,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
-# AUTH_USER_MODEL = 'accounts.CustomUser'
+# AUTH_USER_MODEL = 'accounts.User'
 
