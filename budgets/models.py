@@ -24,6 +24,9 @@ class Budget(models.Model):
     updated_at = models.DateTimeField(auto_now=True)      # When budget was last modified
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    def __str__(self):
+        return f"{self.name} ({self.start_date} to {self.end_date})"
+
 
 
 # BudgetCategory model
@@ -38,6 +41,9 @@ class BudgetCategory(models.Model):
     planned = models.DecimalField(max_digits=10, decimal_places=2)  # Planned spending for category
     actual = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Actual spending
 
+    def __str__(self):
+        return f"{self.name} ({self.budget.name}) - ${self.planned:.2f}"
+
 
 # BudgetTransaction model
 class BudgetTransaction(models.Model):
@@ -48,3 +54,6 @@ class BudgetTransaction(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)  # Transaction amount
     date = models.DateField()  # When transaction occurred
     description = models.CharField(max_length=255)  # Transaction description
+
+    def __str__(self):
+        return f"{self.description} - ${self.amount:.2f} ({self.category.name})"
