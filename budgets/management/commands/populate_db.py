@@ -15,74 +15,46 @@ class Command(BaseCommand):
         if not user:
             user = User.objects.create_superuser(username='admin', password='test')
 
-        # Sample categories with planned amounts
+        # Basic categories with planned amounts
         categories_data = [
             ('Housing', Decimal('1500.00')),
-            ('Groceries', Decimal('500.00')),
-            ('Transportation', Decimal('300.00')),
-            ('Utilities', Decimal('200.00')),
-            ('Entertainment', Decimal('150.00')),
-            ('Healthcare', Decimal('200.00')),
-            ('Savings', Decimal('1000.00')),
-            ('Shopping', Decimal('250.00'))
+            ('Groceries', Decimal('500.00'))
         ]
 
-        # Create budgets for the next 3 months
-        start_date = date.today().replace(day=1)
-        for month in range(3):
+        # Create budgets for the next 6 months
+        start_date = date(2025, 1, 1)  # Starting from January 2025
+        for month in range(6):
             # Calculate budget period
             budget_start = start_date + timedelta(days=30*month)
-            budget_end = (budget_start + timedelta(days=30)).replace(day=1) - timedelta(days=1)
+            next_month = budget_start.month + 1 if budget_start.month < 12 else 1
+            next_year = budget_start.year + 1 if next_month == 1 else budget_start.year
+            budget_end = date(next_year, next_month, 1) - timedelta(days=1)
             
             # Calculate totals
-            total_planned = sum(amount for _, amount in categories_data)
-            
+            total_expenses = sum(amount for _, amount in categories_data)
+            total_income = Decimal('4600.00')
+
             # Create budget
             budget = Budget.objects.create(
                 user=user,
                 name=f"Budget for {budget_start.strftime('%B %Y')}",
                 start_date=budget_start,
                 end_date=budget_end,
-                total_income=total_planned + Decimal('500.00'),  # Buffer of 500
-                total_expenses=total_planned,
+                total_income=total_income,
+                total_expenses=Decimal('4100.00'),
                 created_at=timezone.now(),
                 updated_at=timezone.now()
             )
 
-            # Create categories and transactions
-            for category_name, planned_amount in categories_data:
-                category = BudgetCategory.objects.create(
+            # Create categories
+            for name, planned in categories_data:
+                actual = planned - Decimal(str(random.uniform(50, 100)))
+                
+                BudgetCategory.objects.create(
                     budget=budget,
-                    name=category_name,
-                    planned=planned_amount,
-                    actual=Decimal('0.00')
+                    name=name,
+                    planned=planned,
+                    actual=actual.quantize(Decimal('.01'))
                 )
-
-                # Create 2-4 transactions per category
-                num_transactions = random.randint(2, 4)
-                total_actual = Decimal('0.00')
-                
-                for _ in range(num_transactions):
-                    transaction_amount = Decimal(str(random.uniform(
-                        float(planned_amount) * 0.1,  # Min 10% of planned
-                        float(planned_amount) * 0.5   # Max 50% of planned
-                    ))).quantize(Decimal('.01'))
-                    
-                    transaction_date = budget_start + timedelta(
-                        days=random.randint(0, (budget_end - budget_start).days)
-                    )
-                    
-                    BudgetTransaction.objects.create(
-                        category=category,
-                        amount=transaction_amount,
-                        date=transaction_date,
-                        description=f"{category_name} Expense {_ + 1}"
-                    )
-                    
-                    total_actual += transaction_amount
-                
-                # Update category actual amount
-                category.actual = total_actual
-                category.save()
 
         self.stdout.write(self.style.SUCCESS('Successfully created sample budget data'))

@@ -1,25 +1,39 @@
+# serializers.py
 from rest_framework import serializers
 from .models import Budget, BudgetCategory, BudgetTransaction
 
-class BudgetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Budget
-        fields = ['id', 'user', 'name', 'start_date', 'end_date', 'total_income', 'total_expenses']
-
-
-
-class BudgetCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BudgetCategory
-        fields = ['id', 'budget', 'name', 'planned', 'actual']
-
-
-
+# Serializer for BudgetTransaction model.
 class BudgetTransactionSerializer(serializers.ModelSerializer):
-    # category = BudgetCategorySerializer()
-    # category_name = serializers.CharField(source='category.name')
     class Meta:
         model = BudgetTransaction
-        fields = ['id', 'category', 'amount', 'date', 'description']
+        fields = ['id', 'amount', 'date', 'description']
 
 
+# Serializer for BudgetCategory model.
+# Includes nested transactions using BudgetTransactionSerializer.
+class BudgetCategorySerializer(serializers.ModelSerializer):
+    # Nested serializer for related transactions.
+    # 'many=True' indicates that a category can have multiple transactions.
+    # 'read_only=True' prevents editing transactions via the category endpoint.
+    transactions = BudgetTransactionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = BudgetCategory
+        fields = ['id', 'name', 'planned', 'actual', 'transactions']
+
+
+# Serializer for Budget model.
+# Includes nested categories using BudgetCategorySerializer.
+class BudgetSerializer(serializers.ModelSerializer):
+    # Nested serializer for related categories.
+    # 'many=True' indicates that a budget can have multiple categories.
+    categories = BudgetCategorySerializer(many=True)
+
+    class Meta:
+        model = Budget
+        fields = [
+            'id', 'user', 'name', 'start_date', 'end_date', 
+            'total_income', 'total_expenses', 'categories'
+        ]
+
+    

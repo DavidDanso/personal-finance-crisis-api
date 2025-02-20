@@ -48,7 +48,7 @@ class BudgetCategory(models.Model):
 # BudgetTransaction model
 class BudgetTransaction(models.Model):
     # Links transaction to a specific category (one category can have many transactions)
-    category = models.ForeignKey(BudgetCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(BudgetCategory, related_name='transactions', on_delete=models.CASCADE)
     
     # Transaction details
     amount = models.DecimalField(max_digits=10, decimal_places=2)  # Transaction amount
