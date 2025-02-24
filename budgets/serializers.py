@@ -16,10 +16,12 @@ class BudgetCategorySerializer(serializers.ModelSerializer):
     # 'many=True' indicates that a category can have multiple transactions.
     # 'read_only=True' prevents editing transactions via the category endpoint.
     transactions = BudgetTransactionSerializer(many=True, read_only=True)
+    budget_id = serializers.CharField(source='budget.id', read_only=True)
+    budget_name = serializers.CharField(source='budget.name', read_only=True)
 
     class Meta:
         model = BudgetCategory
-        fields = ['id', 'name', 'planned', 'actual', 'transactions']
+        fields = ['id', 'budget_id', 'budget_name', 'name', 'planned', 'actual', 'transactions']
 
 
 # Serializer for Budget model.
