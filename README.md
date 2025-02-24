@@ -66,9 +66,8 @@ Create and track budgets.
 - `GET /api/budgets/{id}/`: Get budget details
 - `PUT /api/budgets/{id}/`: Update budget
 - `DELETE /api/budgets/{id}/`: Remove budget
-- `GET /api/budgets/{id}/analysis/`: Get budget analysis
-- `POST /api/budgets/import/`: Import budget from CSV
-- `GET /api/budgets/export/`: Export budget to CSV
+- `POST /api/budgets/{budget_id}/categories/`: Add new category to budget
+- `POST /api/budgets/{budget_id}/categories/{id}/transactions/`: Add transaction to category
 
 ### Debt Management
 Track and analyze debts.
