@@ -4,7 +4,12 @@ from budgets import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/budgets/', views.budget_list, name='budget_list'),
-    path('api/categories/', views.budget_category_list, name='category_list'),
-    path('api/transactions/', views.budget_transaction_list, name='transaction_list'),
+    
+    # Budget endpoints
+    path('api/budgets/', views.budget_list, name='budget-list'),
+    path('api/budgets/<uuid:id>/', views.budget_detail, name='budget-detail'),
+    
+    # Category and transaction endpoints
+    path('api/categories/', views.category_list, name='category_list'),
+    path('api/transactions/', views.transaction_list, name='transaction_list'),
 ]
