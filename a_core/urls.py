@@ -10,6 +10,6 @@ urlpatterns = [
     path('api/budgets/<uuid:budget_id>/', views.BudgetDetailAPIView.as_view(), name='budget-detail'),
     
     # Category and transaction endpoints
-    path('api/categories/', views.category_list, name='category_list'),
-    path('api/transactions/', views.transaction_list, name='transaction_list'),
+    path('api/budgets/<uuid:budget_id>/categories/', views.CreateCategoryAPIView.as_view(), name='category-create'),
+    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/transactions', views.CreateTransactionAPIView.as_view(), name='transaction-create'),
 ]
