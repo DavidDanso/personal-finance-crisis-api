@@ -13,14 +13,7 @@ class BudgetTransactionSerializer(serializers.ModelSerializer):
 class BudgetCategorySerializer(serializers.ModelSerializer):
     transactions = BudgetTransactionSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = BudgetCategory
-        fields = ['id', 'name', 'planned', 'actual', 'transactions']
-
-
-# Simplified category serializer for nesting in budgets
-class CategoryNestedSerializer(serializers.ModelSerializer):
-    transactions = BudgetTransactionSerializer(many=True, read_only=True)
+    # total_transactions = serializers.SerializerMethodField()
 
     class Meta:
         model = BudgetCategory
@@ -35,7 +28,8 @@ class BudgetSerializer(serializers.ModelSerializer):
         model = Budget
         fields = [
             'id', 'user', 'name', 'start_date', 'end_date', 
-            'total_income', 'total_expenses', 'categories'
+            'total_income', 'total_expenses', 'categories',
+            'created_at'
         ]
 
     
