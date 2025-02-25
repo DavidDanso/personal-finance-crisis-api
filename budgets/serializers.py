@@ -32,13 +32,13 @@ class CategoryNestedSerializer(serializers.ModelSerializer):
         model = BudgetCategory
         fields = ['id', 'name', 'planned', 'actual', 'transactions']
 
-        
+
 # Serializer for Budget model.
 # Includes nested categories using BudgetCategorySerializer.
 class BudgetSerializer(serializers.ModelSerializer):
     # Nested serializer for related categories.
     # 'many=True' indicates that a budget can have multiple categories.
-    categories = BudgetCategorySerializer(many=True)
+    categories = BudgetCategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Budget

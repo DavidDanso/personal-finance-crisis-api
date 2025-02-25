@@ -27,6 +27,9 @@ class Budget(models.Model):
     def __str__(self):
         return f"{self.name} ({self.start_date} to {self.end_date})"
 
+    class Meta:
+        ordering = ['-created_at']
+
 
 
 # BudgetCategory model

@@ -1,24 +1,24 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import generics
 from .models import Budget, BudgetCategory, BudgetTransaction
 from django.shortcuts import get_object_or_404
 from .serializers import BudgetSerializer, BudgetCategorySerializer, BudgetTransactionSerializer
 
-# Create your views here.
-@api_view(['GET'])
-def budget_list(request):
-    budgets = Budget.objects.all()
-    serializer = BudgetSerializer(budgets, many=True)
-    return Response(serializer.data)
+# Create new budget.
+class BudgetCreateAPIView(generics.ListCreateAPIView):
+    queryset = Budget.objects.all()
+    serializer_class = BudgetSerializer
 
 
-@api_view(['GET'])
-def budget_detail(request, id):
-    budget = get_object_or_404(Budget, id=id)
-    serializer = BudgetSerializer(budget)
-    return Response(serializer.data)
+class BudgetDetailAPIView(generics.RetrieveAPIView):
+    queryset = Budget.objects.all()
+    serializer_class = BudgetSerializer
+    lookup_url_kwarg = 'budget_id'
 
 
+
+# Function-based views for category and transaction endpoints
 @api_view(['GET'])
 def category_list(request):
     categories = BudgetCategory.objects.all()

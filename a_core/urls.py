@@ -6,8 +6,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Budget endpoints
-    path('api/budgets/', views.budget_list, name='budget-list'),
-    path('api/budgets/<uuid:id>/', views.budget_detail, name='budget-detail'),
+    path('api/budgets/', views.BudgetCreateAPIView.as_view(), name='budget-list-create'),
+    path('api/budgets/<uuid:budget_id>/', views.BudgetDetailAPIView.as_view(), name='budget-detail'),
     
     # Category and transaction endpoints
     path('api/categories/', views.category_list, name='category_list'),
