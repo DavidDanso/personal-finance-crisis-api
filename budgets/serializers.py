@@ -12,12 +12,14 @@ class BudgetTransactionSerializer(serializers.ModelSerializer):
 # Serializer for BudgetCategory model.
 class BudgetCategorySerializer(serializers.ModelSerializer):
     transactions = BudgetTransactionSerializer(many=True, read_only=True)
+    total_transactions = serializers.SerializerMethodField()
 
-    # total_transactions = serializers.SerializerMethodField()
+    def get_total_transactions(self, obj):
+        return obj.transactions.count()
 
     class Meta:
         model = BudgetCategory
-        fields = ['id', 'name', 'planned', 'actual', 'transactions']
+        fields = ['id', 'name', 'planned', 'actual', 'total_transactions', 'transactions']
 
 
 # Serializer for Budget model.
