@@ -11,5 +11,6 @@ urlpatterns = [
     
     # Category and transaction endpoints
     path('api/budgets/<uuid:budget_id>/categories/', views.CreateCategoryAPIView.as_view(), name='category-create'),
+    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/', views.CategoryDetailsAPIView.as_view(), name='category-details'),
     path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/transactions', views.CreateTransactionAPIView.as_view(), name='transaction-create'),
 ]

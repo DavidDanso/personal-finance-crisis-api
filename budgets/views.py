@@ -8,8 +8,9 @@ class BudgetCreateAPIView(generics.ListCreateAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
 
+
 #
-class BudgetDetailAPIView(generics.RetrieveAPIView):
+class BudgetDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
     lookup_url_kwarg = 'budget_id'
@@ -22,6 +23,20 @@ class CreateCategoryAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         budget = get_object_or_404(Budget, id=self.kwargs.get('budget_id'))
         serializer.save(budget=budget)
+
+
+
+# /api/budgets/{budget_id}/categories/{id}/
+class CategoryDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = BudgetCategorySerializer
+    
+    def get_object(self):
+        budget_id = self.kwargs.get('budget_id')
+        category_id = self.kwargs.get('category_id')
+        
+        # Verify budget belongs to user and category belongs to budget
+        budget = get_object_or_404(Budget, id=budget_id)
+        return get_object_or_404(BudgetCategory, id=category_id, budget=budget)
 
 
 #
