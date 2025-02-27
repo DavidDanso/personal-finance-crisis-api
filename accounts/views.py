@@ -1,11 +1,11 @@
 from rest_framework import generics
-from .models import Budget, BudgetCategory, BudgetTransaction
+from .models import UserProfile
 from django.shortcuts import get_object_or_404
-from .serializers import BudgetSerializer, BudgetCategorySerializer, BudgetTransactionSerializer
+from .serializers import UserProfileSerializer
 
 #
-class BudgetCreateAPIView(generics.ListCreateAPIView):
-    queryset = Budget.objects.all()
-    serializer_class = BudgetSerializer
+class UserProfileCreateAPIView(generics.ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
 

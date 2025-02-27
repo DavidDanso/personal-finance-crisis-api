@@ -1,17 +1,21 @@
 from django.contrib import admin
 from django.urls import path
-from budgets import views
+from budgets import views as budget_views
+from accounts import views as account_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # UserProfile endpoints
+    path('api/users/', account_views.UserProfileCreateAPIView.as_view(), name='user-profile-list-create'),
     
     # Budget endpoints
-    path('api/budgets/', views.BudgetCreateAPIView.as_view(), name='budget-list-create'),
-    path('api/budgets/<uuid:budget_id>/', views.BudgetDetailAPIView.as_view(), name='budget-detail'),
+    path('api/budgets/', budget_views.BudgetCreateAPIView.as_view(), name='budget-list-create'),
+    path('api/budgets/<uuid:budget_id>/', budget_views.BudgetDetailAPIView.as_view(), name='budget-detail'),
     
     # Category and transaction endpoints
-    path('api/budgets/<uuid:budget_id>/categories/', views.CreateCategoryAPIView.as_view(), name='category-create'),
-    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/', views.CategoryDetailsAPIView.as_view(), name='category-details'),
-    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/transactions/', views.CreateTransactionAPIView.as_view(), name='transaction-create'),
-    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/transactions/<int:transaction_id>/', views.TransactionDetailsAPIView.as_view(), name='transaction-detalis'),
+    path('api/budgets/<uuid:budget_id>/categories/', budget_views.CreateCategoryAPIView.as_view(), name='category-create'),
+    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/', budget_views.CategoryDetailsAPIView.as_view(), name='category-details'),
+    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/transactions/', budget_views.CreateTransactionAPIView.as_view(), name='transaction-create'),
+    path('api/budgets/<uuid:budget_id>/categories/<int:category_id>/transactions/<int:transaction_id>/', budget_views.TransactionDetailsAPIView.as_view(), name='transaction-details'),
 ]
