@@ -25,7 +25,6 @@ class CreateCategoryAPIView(generics.CreateAPIView):
         serializer.save(budget=budget)
 
 
-
 #
 class CategoryDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BudgetCategorySerializer
@@ -51,8 +50,7 @@ class CreateTransactionAPIView(generics.CreateAPIView):
         serializer.save(category=category)
 
 
-
-# /api/budgets/{budget_id}/categories/{category_id}/transactions/{transaction_id}/
+#
 class TransactionDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BudgetTransactionSerializer
     
@@ -61,7 +59,6 @@ class TransactionDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
         category_id = self.kwargs.get('category_id')
         transaction_id = self.kwargs.get('transaction_id')
         
-        # Verify budget belongs to user and category belongs to budget
         budget = get_object_or_404(Budget, id=budget_id)
         category = get_object_or_404(BudgetCategory, id=category_id, budget=budget)
         return get_object_or_404(BudgetTransaction, id=transaction_id, category=category)
