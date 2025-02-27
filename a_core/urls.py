@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.urls import path
 from budgets import views as budget_views
-from accounts import views as account_views
+from accounts import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # UserProfile endpoints
-    path('api/users/', account_views.UserProfileCreateAPIView.as_view(), name='user-profile-list-create'),
+    path('api/profile/', user_views.UserProfileDetailAPIView.as_view(), name='user-profile-details'),
     
     # Budget endpoints
     path('api/budgets/', budget_views.BudgetCreateAPIView.as_view(), name='budget-list-create'),
