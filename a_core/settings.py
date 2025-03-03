@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # my_apps
     'budgets.apps.BudgetsConfig',
     'accounts.apps.AccountsConfig',
+    'debts.apps.DebtsConfig',
 
     # drf
     'rest_framework',
