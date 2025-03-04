@@ -7,4 +7,4 @@ from .models import Debt
 class DebtSerializer(serializers.ModelSerializer):
     class Meta:
         model = Debt
-        fields = ['lender', 'amount', 'interest_rate','due_date', 'status']
+        fields = ['user', 'id', 'lender', 'amount', 'interest_rate','due_date', 'status']

@@ -1,9 +1,10 @@
 from django.db import models
-from accounts.models import UserProfile
+from accounts.models import User
+from django.contrib.auth.models import User
 import uuid
 
 class Debt(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     lender = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     interest_rate = models.DecimalField(max_digits=5, decimal_places=2)
@@ -18,4 +19,4 @@ class Payment(models.Model):
     debt = models.ForeignKey(Debt, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateField(auto_now_add=True)
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
