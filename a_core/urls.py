@@ -23,5 +23,6 @@ urlpatterns = [
     # Debt endpoints
     path('api/debts/', debt_views.DebtCreateAPIView.as_view(), name='debt-list-create'),
     path('api/debts/<uuid:debt_id>/', debt_views.DebtDetailsAPIView.as_view(), name='debt-details'),
+    path('api/debts/<uuid:debt_id>/payments/', debt_views.PaymentCreateAPIView.as_view(), name='payment-create'),
 
 ]
