@@ -18,5 +18,5 @@ class Debt(models.Model):
 class Payment(models.Model):
     debt = models.ForeignKey(Debt, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_date = models.DateField(auto_now_add=True)
+    payment_date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)

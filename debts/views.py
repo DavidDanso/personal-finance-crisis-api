@@ -22,5 +22,5 @@ class PaymentCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         debt_id = self.kwargs.get('debt_id')
-        debt = get_object_or_404(Debt, id=debt_id)
+        debt = get_object_or_404(Debt, id=debt_id, user=self.request.user)
         serializer.save(debt=debt)

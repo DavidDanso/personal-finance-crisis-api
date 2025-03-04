@@ -15,4 +15,4 @@ class DebtSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ['id', 'amount', 'payment_date']
+        fields = ['user', 'id', 'amount', 'payment_date']
