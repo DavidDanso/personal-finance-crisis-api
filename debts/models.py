@@ -1,5 +1,3 @@
-from datetime import date
-from decimal import Decimal
 from django.db import models
 from accounts.models import UserProfile
 import uuid
@@ -14,3 +12,10 @@ class Debt(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+
+class Payment(models.Model):
+    debt = models.ForeignKey(Debt, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
