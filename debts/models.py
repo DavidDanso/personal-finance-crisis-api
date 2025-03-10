@@ -21,6 +21,9 @@ class Debt(models.Model):
     def __str__(self):
         return f"{self.user.username} owes ${self.amount} to {self.lender}"
 
+    class Meta:
+        ordering = ['-created_at']
+
 
 class Payment(models.Model):
     debt = models.ForeignKey(Debt, on_delete=models.CASCADE)

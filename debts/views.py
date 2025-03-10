@@ -16,11 +16,17 @@ class DebtDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = 'debt_id'
 
 
-# /api/debts/{debt_id}/payments
-class PaymentCreateAPIView(generics.CreateAPIView):
+class PaymentCreateAPIView(generics.ListCreateAPIView):
     serializer_class = PaymentSerializer
 
+    def get_queryset(self):
+        # Retrieve the debt_id from the URL and filter payments for that specific debt.
+        debt_id = self.kwargs.get('debt_id')
+        return Payment.objects.filter(debt__id=debt_id, user=self.request.user)
+
     def perform_create(self, serializer):
+        # Retrieve the debt instance using the debt_id from the URL, ensuring it belongs to the current user.
         debt_id = self.kwargs.get('debt_id')
         debt = get_object_or_404(Debt, id=debt_id, user=self.request.user)
-        serializer.save(debt=debt)
+        # Save the new Payment with the associated debt and the current user.
+        serializer.save(debt=debt, user=self.request.user)
